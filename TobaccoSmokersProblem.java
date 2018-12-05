@@ -45,6 +45,8 @@ public class TobaccoSmokersProblem {
 	public static class Agent extends Thread {
 		private int _ingred1, _ingred2, called_smoker;
 		private static int round;
+		private static int previous;
+		private static int previous_time;
 		
 		public Agent(int ingred1, int ingred2, int smoker) {
 			super();
@@ -56,16 +58,28 @@ public class TobaccoSmokersProblem {
 		public void run() {
 			try {
 				barrier.await();
-				barrier.reset();
 		    } catch (Exception ex) {
 		        ex.printStackTrace();
 		    }
 			while(true) {
-				// Wait for the agent to prepare ingredient.
-				while(agentSem.availablePermits()==0);
 				
+				if(previous_time > 2 && previous == this.called_smoker) {
+					System.out.println("Over 3 times!");
+					previous_time = 0;
+					continue;
+				}
+				System.out.println(this.getName());
+				while(agentSem.availablePermits()==0);
+				System.out.println(this.getName());
+				// Wait for the agent to prepare ingredient.
 				try {					
 					agentSem.acquire();	
+					synchronized(this) {
+						System.out.println(previous+" "+previous_time);
+						if(previous == this.called_smoker) previous_time++;
+						else previous_time=0;
+						previous = this.called_smoker;
+					}
 					sleep(3000);
 					System.out.println("------------------------------");
 					synchronized (this){
