@@ -13,6 +13,8 @@ import javafx.animation.Timeline;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
+import javazoom.jlgui.basicplayer.BasicPlayer;
+import javazoom.jlgui.basicplayer.BasicPlayerException;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -21,17 +23,21 @@ import javafx.scene.text.Font;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.CyclicBarrier;
 
+import javazoom.jlgui.basicplayer.BasicPlayer;
+import javazoom.jlgui.basicplayer.BasicPlayerException;
 
 public class smokerProblem_GUI extends Application {
 	
 	private Scene home;
-	private Stage window; 
+	public Stage window; 
 	private static Pane root;
 	private  Calendar dateTime;
 	
@@ -63,6 +69,7 @@ public class smokerProblem_GUI extends Application {
 	    if (home == null) {
 	        // build my scene
 	        home = new Scene(pane(), 900, 700);
+	        startScene();
 	    }
 	    
 	    return home;
@@ -261,8 +268,8 @@ public static void tobaccoMove() {
 			pane().getChildren().remove(tobacco1);});
 	}
 
-	@Override
-	public void start(Stage stage) {
+	
+	public static void startScene() {
 		
 		ImageView bar = new ImageView();
 		bar.setImage(new Image("file:src/pictures/bar.png"));
@@ -394,17 +401,30 @@ public static void tobaccoMove() {
 		pane().getChildren().add(timeDown);
 		pane().getChildren().add(eventHappen);
 	
-		window = stage;
-	    window.setScene(home());
-		window.show();
 	}
 	
 	
 	
 	
+	@Override
+	public void start(Stage stage) {
+		window = stage;
+	    window.setScene(home());
+		window.show();
+		 BasicPlayer player = new BasicPlayer();
+	        try {
+	            player.open(new URL("file:src/music/2.mp3"));
+	            player.play();
+	        } catch (BasicPlayerException | MalformedURLException e) {
+	            e.printStackTrace();
+	        }
+	}
+	
+	
+	
+	 	
 	
 	public static void main(String[] args) {
-		
 				// smokerSemaphore set 0 to prevent the Deadlock.
 				for (int i = 0; i < smokerSem.length; i++) {
 					smokerSem[i] = new Semaphore(0);
@@ -426,8 +446,15 @@ public static void tobaccoMove() {
 				tobacco_smoker.start();
 				paper_smoker.start();
 				matches_smoker.start();
-				Application.launch(Main.class, args);
+				
+				
+				//Application.launch(smokerProblem_GUI.class, args);
+
+				
+				
 	}
+	
+
 	
 	public static class Agent extends Thread {
 		private int _ingred1, _ingred2, called_smoker;
@@ -672,6 +699,6 @@ public static void tobaccoMove() {
 		}
 		System.out.println();
 	}
-
+	
 }
 
