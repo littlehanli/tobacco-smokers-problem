@@ -13,6 +13,8 @@ import javafx.animation.Timeline;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
+import javazoom.jlgui.basicplayer.BasicPlayer;
+import javazoom.jlgui.basicplayer.BasicPlayerException;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -21,17 +23,21 @@ import javafx.scene.text.Font;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.CyclicBarrier;
 
+import javazoom.jlgui.basicplayer.BasicPlayer;
+import javazoom.jlgui.basicplayer.BasicPlayerException;
 
 public class smokerProblem_GUI extends Application {
 	
 	private Scene home;
-	private Stage window; 
+	public Stage window; 
 	private static Pane root;
 	private  Calendar dateTime;
 	
@@ -63,6 +69,7 @@ public class smokerProblem_GUI extends Application {
 	    if (home == null) {
 	        // build my scene
 	        home = new Scene(pane(), 900, 700);
+	        startScene();
 	    }
 	    
 	    return home;
@@ -261,8 +268,8 @@ public static void tobaccoMove() {
 			pane().getChildren().remove(tobacco1);});
 	}
 
-	@Override
-	public void start(Stage stage) {
+	
+	public static void startScene() {
 		
 		ImageView bar = new ImageView();
 		bar.setImage(new Image("file:src/pictures/bar.png"));
@@ -394,16 +401,163 @@ public static void tobaccoMove() {
 		pane().getChildren().add(timeDown);
 		pane().getChildren().add(eventHappen);
 	
-		window = stage;
-	    window.setScene(home());
-		window.show();
 	}
 	
 	
 	
 	
+	@Override
+	public void start(Stage stage) {
+	/*	
+		ImageView bar = new ImageView();
+		bar.setImage(new Image("file:src/pictures/bar.png"));
+		bar.setFitWidth(900);
+		bar.setFitHeight(700);
+
+		ImageView match = new ImageView();
+		match.setImage(new Image("file:src/pictures/cerillos.png"));
+		match.setFitWidth(70);
+		match.setFitHeight(70);
+		match.setLayoutX(570);
+		match.setLayoutY(410);
+		
+		ImageView paper = new ImageView();
+		paper.setImage(new Image("file:src/pictures/paper.png"));
+		paper.setFitWidth(70);
+		paper.setFitHeight(70);
+		paper.setLayoutX(640);
+		paper.setLayoutY(410);
+		
+		ImageView tobacco = new ImageView();
+		tobacco.setImage(new Image("file:src/pictures/tobacco.png"));
+		tobacco.setFitWidth(70);
+		tobacco.setFitHeight(70);
+		tobacco.setLayoutX(715);
+		tobacco.setLayoutY(410);
+		
+		ImageView matchPeople = new ImageView();
+		matchPeople.setImage(new Image("file:src/pictures/matchPeople.png"));
+		matchPeople.setFitWidth(150);
+		matchPeople.setFitHeight(150);
+		matchPeople.setLayoutX(70);
+		matchPeople.setLayoutY(540);
+		
+		ImageView paperPeople = new ImageView();
+		paperPeople.setImage(new Image("file:src/pictures/paperPeople.png"));
+		paperPeople.setFitWidth(150);
+		paperPeople.setFitHeight(150);
+		paperPeople.setLayoutX(370);
+		paperPeople.setLayoutY(540);
+		
+		ImageView tobaccoPeople = new ImageView();
+		tobaccoPeople.setImage(new Image("file:src/pictures/tobaccoPeople.png"));
+		tobaccoPeople.setFitWidth(150);
+		tobaccoPeople.setFitHeight(150);
+		tobaccoPeople.setLayoutX(670);
+		tobaccoPeople.setLayoutY(540);
+		
+		ImageView time = new ImageView();
+		time.setImage(new Image("file:src/pictures/沙漏.png"));
+		time.setFitWidth(190);
+		time.setFitHeight(160);
+		time.setLayoutX(-50);
+		time.setLayoutY(10);
+		RotateTransition  rotate = new RotateTransition();
+		rotate.setNode(time);
+		rotate.setCycleCount(Timeline.INDEFINITE);
+		rotate.setDuration(Duration.seconds(2));
+		rotate.setFromAngle(0);
+		rotate.setToAngle(360);
+		rotate.play();
+		
+
+		Label label1 = new Label("Time:");
+		label1.setLayoutX(85);
+		label1.setLayoutY(70);
+	
+		label1.setTextFill(Color.web("#FFFFFF"));
+	    label1.setFont(new Font("Arial", 35));
+	    
+	    ImageView event = new ImageView();
+		event.setImage(new Image("file:src/pictures/event.png"));
+		event.setFitWidth(60);
+		event.setFitHeight(60);
+		event.setLayoutX(10);
+		event.setLayoutY(130);
+		
+	    Label label2 = new Label("Event:");
+		label2.setLayoutX(90);
+		label2.setLayoutY(140);
+		label2.setTextFill(Color.web("#FFFFFF"));
+	    label2.setFont(new Font("Arial", 35));
+	   
+	    matchNum.setText("0");
+		matchNum.setLayoutX(250);
+		matchNum.setLayoutY(650);	
+		matchNum.setTextFill(Color.web("#FFFFFF"));
+		matchNum.setFont(new Font("Arial", 35));
+		
+		paperNum.setText("0");
+		paperNum.setLayoutX(550);
+		paperNum.setLayoutY(650);	
+		paperNum.setTextFill(Color.web("#FFFFFF"));
+		paperNum.setFont(new Font("Arial", 35));
+		
+		tobaccoNum.setText("0");
+		tobaccoNum.setLayoutX(850);
+		tobaccoNum.setLayoutY(650);	
+		tobaccoNum.setTextFill(Color.web("#FFFFFF"));
+		tobaccoNum.setFont(new Font("Arial", 35));
+		
+		timeDown.setText(" ");
+		timeDown.setLayoutX(190);
+		timeDown.setLayoutY(70);	
+		timeDown.setTextFill(Color.web("#FFFFFF"));
+		timeDown.setFont(new Font("Arial", 35));
+		
+		eventHappen.setText(" ");
+		eventHappen.setLayoutX(200);
+		eventHappen.setLayoutY(150);	
+		eventHappen.setTextFill(Color.web("#FFFFFF"));
+		eventHappen.setFont(new Font("Arial", 25));
+		
+		
+		pane().getChildren().add(bar);
+		pane().getChildren().add(match);
+		pane().getChildren().add(paper);
+		pane().getChildren().add(tobacco);
+		pane().getChildren().add(matchPeople);
+		pane().getChildren().add(paperPeople);
+		pane().getChildren().add(tobaccoPeople);
+		pane().getChildren().add(label1);
+		pane().getChildren().add(time);
+		pane().getChildren().add(label2);
+		pane().getChildren().add(event);
+		pane().getChildren().add(matchNum);
+		pane().getChildren().add(paperNum);
+		pane().getChildren().add(tobaccoNum);
+		pane().getChildren().add(timeDown);
+		pane().getChildren().add(eventHappen);
+	*/
+		window = stage;
+	    window.setScene(home());
+		window.show();
+		 BasicPlayer player = new BasicPlayer();
+	        try {
+	            player.open(new URL("file:src/music/2.mp3"));
+	            player.play();
+	        } catch (BasicPlayerException | MalformedURLException e) {
+	            e.printStackTrace();
+	        }
+	}
+	
+	
+	
+	 	
 	
 	public static void main(String[] args) {
+		
+				System.out.println("DB_1");
 		
 				// smokerSemaphore set 0 to prevent the Deadlock.
 				for (int i = 0; i < smokerSem.length; i++) {
@@ -426,8 +580,21 @@ public static void tobaccoMove() {
 				tobacco_smoker.start();
 				paper_smoker.start();
 				matches_smoker.start();
-				Application.launch(Main.class, args);
+				
+				System.out.println("DB_2");
+				//Application.launch(smokerProblem_GUI.class, args);
+				System.out.println("DB_3");
+				
+				
 	}
+	
+//	public void  showWindow() throws Exception {
+//		main(null);
+//	}
+
+
+	
+	
 	
 	public static class Agent extends Thread {
 		private int _ingred1, _ingred2, called_smoker;
@@ -672,6 +839,10 @@ public static void tobaccoMove() {
 		}
 		System.out.println();
 	}
+	
+	
+	
+
 
 }
 
