@@ -14,6 +14,7 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.BoxBlur;
@@ -36,19 +37,37 @@ import javax.sound.sampled.Clip;
 */
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Date;
+
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.util.Duration;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+
 
 
 
 import javazoom.jlgui.basicplayer.BasicPlayer;
 import javazoom.jlgui.basicplayer.BasicPlayerException;
 
-
+import java.util.concurrent.TimeUnit;
  
 public class ColorfulCircles extends Application {
- 
+	smokerProblem_GUI ob = new smokerProblem_GUI();
+	
 	
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage primaryStage ){
+	
+
 		Group root = new Group();
  
 		Group circles = new Group();
@@ -100,22 +119,32 @@ public class ColorfulCircles extends Application {
 		    );
 		}
 		
-		primaryStage.show();
+		
 		
 		
 		/*********************************************/
 		
-	    ProgressBar p = new ProgressBar(); 
-	    p.setPrefSize(500, 10);
-	    p.setTranslateX(200.0);
-	    p.setTranslateY(450.0);
-	    root.getChildren().add(p);
-	    
-	    primaryStage.show();
 	    
 		/*********************************************/
 	  
-       
+       Button bt =new Button("start");
+       bt.setPrefSize(100, 10);
+       bt.setTranslateX(400.0);
+	   bt.setTranslateY(550.0);
+       bt.setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
+    	  public void handle(ActionEvent event) {
+    	   primaryStage.setScene(ob.home());
+    	   smokerProblem_GUI.main(null);
+       }
+       });
+	   
+	   
+	   
+	   
+	   root.getChildren().add(bt);
+      
+      
+     
 
 	  
 	    /*********************************************/
@@ -149,9 +178,15 @@ public class ColorfulCircles extends Application {
         primaryStage.show();
 	    /*********************************************/
        
+   
 
-		
-       
+	    ProgressBar p = new ProgressBar(); 
+	    p.setPrefSize(500, 10);
+	    p.setTranslateX(200.0);
+	    p.setTranslateY(450.0);
+	    root.getChildren().add(p);
+	    
+	    primaryStage.show();
   
         
         
@@ -177,11 +212,33 @@ public class ColorfulCircles extends Application {
         primaryStage.show();
   */
         /*********************************************/
-        
-   	
+   /*     
+   	try {
+		TimeUnit.SECONDS.sleep(3);
+	} catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+   	try {
+		changeWindow();
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}*/
 		
 	}
 	
+	
+	
+	//public void changeWindow() throws Exception {
+		//application.smokerProblem_GUI second=new smokerProblem_GUI();
+		//second.showWindow();
+	    
+	
+	    
+		
+//	}
+	   
 	  public static void main(String[] args) {
 			launch(args);
 		}
